@@ -1,0 +1,22 @@
+body { 
+    margin: 0;
+    padding: 0;
+    background: #FFF;
+    color:#000;
+    font: 15px Arial;
+}
+
+p { 
+    margin-left: 10px;
+}
+
+a { 
+    color: #006;
+}
+
+#etchcanvas { 
+    margin: 10px;
+
+    width: 450px;
+    height: 450px;
+}
