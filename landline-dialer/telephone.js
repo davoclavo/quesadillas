@@ -17,6 +17,7 @@ function Telephone(){
 	};
 	this.numberString = '';
 	this.currentIndex = 0;
+	this.pause = 1000;
 }
 
 Telephone.prototype = {
@@ -28,29 +29,35 @@ Telephone.prototype = {
 	playNextDigit: function(){
 		var self = this;
 		var number = self.numberString[self.currentIndex];
-		console.log('Dialing ['+number + ']');
-
+		
 		switch(number){
 			case '-':
 				console.log('Pause');
+				setTimeout(function(){
+					self.nextDigit();
+				}, self.pause)
 				break;
 			default:
+				console.log('Dialing ['+number + ']');
 				var sound = document.getElementById(self.map[number]);
 				sound.play();
 				sound.addEventListener('ended', function(){
 					//Remove all event listeners by cloning and replacing
 					var sound_clone = sound.cloneNode(true);
 					sound.parentNode.replaceChild(sound_clone, sound);
-
-					self.currentIndex++;
-					if(self.currentIndex < self.numberString.length)
-						self.playNextDigit();
-					else{
-						console.log('Finished dialing '+self.numberString);
-						self.currentIndex = 0;
-						self.numberString = '';
-					}
+					self.nextDigit();
 				}, false);
+		}
+	},
+	nextDigit: function(){
+		var self = this;
+		self.currentIndex++;
+		if(self.currentIndex < self.numberString.length)
+			self.playNextDigit();
+		else{
+			console.log('Finished dialing '+self.numberString);
+			self.currentIndex = 0;
+			self.numberString = '';
 		}
 	}
 }
